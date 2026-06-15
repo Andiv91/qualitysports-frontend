@@ -82,8 +82,8 @@ export default function Home() {
               <div className="flex flex-wrap gap-3">
                 <Link
                   to="/catalogo"
-                  className="px-7 py-3 text-white text-sm font-semibold rounded-xl transition-colors active:scale-[0.98]"
-                  style={{ backgroundColor: '#C0392B' }}
+                  className="px-7 py-3 text-sm font-semibold rounded-xl transition-colors active:scale-[0.98]"
+                  style={{ backgroundColor: '#C0392B', color: '#FFFFFF' }}
                   onMouseOver={e => e.currentTarget.style.backgroundColor = '#A93226'}
                   onMouseOut={e => e.currentTarget.style.backgroundColor = '#C0392B'}
                 >
@@ -91,8 +91,8 @@ export default function Home() {
                 </Link>
                 <Link
                   to="/catalogo"
-                  className="px-7 py-3 text-white text-sm font-medium rounded-xl transition-colors"
-                  style={{ border: '1px solid rgba(255,255,255,0.25)' }}
+                  className="px-7 py-3 text-sm font-medium rounded-xl transition-colors"
+                  style={{ border: '1px solid rgba(255,255,255,0.25)', color: '#FFFFFF' }}
                   onMouseOver={e => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)'}
                   onMouseOut={e => e.currentTarget.style.backgroundColor = 'transparent'}
                 >
@@ -158,7 +158,7 @@ export default function Home() {
               <h2 className="text-2xl md:text-3xl font-bold text-[#1C1C1E] mt-1">Productos destacados</h2>
               <p className="text-gray-400 text-sm mt-1">Los más buscados de la temporada</p>
             </div>
-            <Link to="/catalogo" className="hidden md:flex items-center gap-1 text-sm font-medium text-[#C0392B] hover:opacity-80 transition-opacity">
+            <Link to="/catalogo" className="hidden md:flex items-center gap-1 text-sm font-medium hover:opacity-80 transition-opacity" style={{ color: '#C0392B' }}>
               Ver todos
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -182,7 +182,7 @@ export default function Home() {
             <Link
               to="/catalogo"
               className="inline-flex items-center gap-1.5 text-sm font-medium"
-              style={{ color: '#C0392B' }}
+              style={{ color: '#C0392B', textDecoration: 'none' }}
             >
               Ver todos los productos
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

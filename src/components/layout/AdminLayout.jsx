@@ -1,4 +1,5 @@
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
+import Logo from '../ui/Logo'
 import { useAuth } from '../../context/AuthContext'
 
 const NAV_ITEMS = [
@@ -93,15 +94,7 @@ export default function AdminLayout() {
       >
         {/* Logo */}
         <div className="px-5 py-5 border-b flex-shrink-0" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#C0392B' }}>
-              <span className="text-white text-xs font-black">QS</span>
-            </div>
-            <div className="leading-none">
-              <span className="font-bold text-sm text-white tracking-[0.08em]">QUALITY</span>
-              <span className="block text-[9px] tracking-[0.3em] font-semibold" style={{ color: '#C0392B' }}>SPORTS</span>
-            </div>
-          </div>
+          <Logo to="/" src="/logo.jpeg" variant="dark" />
         </div>
 
         {/* Nav */}

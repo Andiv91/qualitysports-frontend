@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
 import CartDrawer from '../cart/CartDrawer'
+import Logo from '../ui/Logo'
 
 export default function Navbar() {
   const { user, logout } = useAuth()
@@ -25,15 +26,7 @@ export default function Navbar() {
         <div className="w-full px-6 md:px-10 h-16 flex items-center">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 flex-shrink-0 flex-1">
-            <div className="w-8 h-8 bg-[#C0392B] rounded-lg flex items-center justify-center flex-shrink-0">
-              <span className="text-white text-xs font-black">QS</span>
-            </div>
-            <div className="leading-none">
-              <span className="font-bold text-sm text-[#1C1C1E] tracking-[0.08em]">QUALITY</span>
-              <span className="block text-[9px] text-[#C0392B] tracking-[0.3em] font-semibold">SPORTS</span>
-            </div>
-          </Link>
+          <Logo to="/" src="/logo.jpeg" linkClassName="flex-shrink-0 flex-1" />
 
           {/* Nav desktop */}
           <nav className="hidden md:flex items-center gap-8">

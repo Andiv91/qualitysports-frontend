@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { login as loginApi } from '../../api/auth'
 import { useAuth } from '../../context/AuthContext'
 import Spinner from '../../components/ui/Spinner'
+import Logo from '../../components/ui/Logo'
 
 export default function Login() {
   const { login } = useAuth()
@@ -34,15 +35,7 @@ export default function Login() {
     <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 justify-center mb-7 hover:opacity-80 transition-opacity">
-          <div className="w-9 h-9 bg-[#C0392B] rounded-lg flex items-center justify-center">
-            <span className="text-white text-xs font-bold">QS</span>
-          </div>
-          <div className="leading-none">
-            <span className="font-bold text-sm text-[#1C1C1E] tracking-wide">QUALITY</span>
-            <span className="block text-[9px] text-[#C0392B] tracking-widest font-semibold">SPORTS</span>
-          </div>
-        </Link>
+        <Logo to="/" src="/logo.jpeg" linkClassName="flex items-center justify-center mb-7" />
 
         <h1 className="text-xl font-bold text-[#1C1C1E] text-center mb-1">Bienvenido de nuevo</h1>
         <p className="text-gray-400 text-sm text-center mb-7">Inicia sesión para continuar</p>

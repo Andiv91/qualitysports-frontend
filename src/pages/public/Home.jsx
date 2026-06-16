@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { listarProductos } from '../../api/productos'
 import ProductCard from '../../components/ui/ProductCard'
 import Spinner from '../../components/ui/Spinner'
@@ -26,16 +27,65 @@ const PASOS = [
   },
 ]
 
+function CollageColumn({ images, direction, speed, left }) {
+  if (!images.length) return null
+  const doubled = [...images, ...images]
+  const totalH = images.length * 192
+  const yFrom = direction === 'up' ? 0 : -totalH
+  const yTo   = direction === 'up' ? -totalH : 0
+
+  return (
+    <div className="absolute top-0 h-full overflow-hidden" style={{ width: '150px', left }}>
+      <motion.div
+        animate={{ y: [yFrom, yTo] }}
+        transition={{ duration: speed, ease: 'linear', repeat: Infinity }}
+        className="flex flex-col gap-3 pt-3"
+      >
+        {doubled.map((url, i) => (
+          <img
+            key={i}
+            src={url}
+            alt=""
+            loading="lazy"
+            fetchPriority="low"
+            className="w-full rounded-xl object-cover flex-shrink-0"
+            style={{ height: '180px' }}
+          />
+        ))}
+      </motion.div>
+    </div>
+  )
+}
+
+function toCollageUrl(url) {
+  if (!url) return url
+  return url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/') + '?width=300&quality=65'
+}
+
 export default function Home() {
-  const [featured, setFeatured] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [featured, setFeatured]       = useState([])
+  const [collageUrls, setCollageUrls] = useState([])
+  const [loading, setLoading]         = useState(true)
 
   useEffect(() => {
     listarProductos(0, 4)
       .then(r => setFeatured(r.data.content ?? r.data))
       .catch(() => {})
       .finally(() => setLoading(false))
+
+    listarProductos(0, 12)
+      .then(r => {
+        const items = r.data.content ?? r.data
+        setCollageUrls(items.map(p => toCollageUrl(p.imagenUrl)).filter(Boolean))
+      })
+      .catch(() => {})
   }, [])
+
+  const padded = collageUrls.length
+    ? Array.from({ length: Math.ceil(9 / collageUrls.length) }, () => collageUrls).flat().slice(0, Math.max(collageUrls.length, 9))
+    : []
+  const third = Math.ceil(padded.length / 3)
+  const cols = [padded.slice(0, third), padded.slice(third, third * 2), padded.slice(third * 2)]
 
   return (
     <div>
@@ -44,6 +94,20 @@ export default function Home() {
         style={{ backgroundColor: '#1C1C1E' }}
         className="relative overflow-hidden flex items-center min-h-[520px] md:min-h-[600px]"
       >
+        {/* Collage columns — desktop only */}
+        {collageUrls.length > 0 && (
+          <div className="hidden lg:block absolute inset-0 overflow-hidden pointer-events-none">
+            <CollageColumn images={cols[0]} direction="up"   speed={22} left="calc(55% + 0px)"   />
+            <CollageColumn images={cols[1]} direction="down" speed={18} left="calc(55% + 162px)" />
+            <CollageColumn images={cols[2]} direction="up"   speed={26} left="calc(55% + 324px)" />
+            {/* Overlay — heavier on left (text), lighter on right (collage visible) */}
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(to right, rgba(28,28,30,1) 38%, rgba(28,28,30,0.55) 60%, rgba(28,28,30,0.75) 100%)' }}
+            />
+          </div>
+        )}
+
         {/* Red accent glow — top right */}
         <div
           className="absolute top-0 right-0 w-2/3 h-full pointer-events-none"
@@ -116,14 +180,14 @@ export default function Home() {
             </div>
 
             {/* Right — brand composition (desktop only) */}
-            <div className="hidden lg:block flex-shrink-0">
+            <div className="hidden lg:block flex-shrink-0 relative z-20">
               <div className="relative w-[340px] h-[340px]">
-                {/* Main red rectangle */}
+                {/* Main red rectangle with logo */}
                 <div
-                  className="absolute top-0 right-0 w-56 h-56 rounded-3xl flex items-end p-6"
+                  className="absolute top-0 right-0 w-56 h-56 rounded-3xl flex items-center justify-center"
                   style={{ backgroundColor: '#C0392B' }}
                 >
-                  <span className="text-white/20 text-8xl font-black leading-none select-none">QS</span>
+                  <img src="/logo.jpeg" alt="Quality Sports" className="w-full h-full object-contain p-4" />
                 </div>
                 {/* Dark square bottom-left */}
                 <div

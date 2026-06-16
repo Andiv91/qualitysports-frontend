@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
-import Layout from '../components/layout/Layout'
+import Layout      from '../components/layout/Layout'
+import AdminLayout from '../components/layout/AdminLayout'
 
 import Home             from '../pages/public/Home'
 import Catalogo         from '../pages/public/Catalogo'
@@ -15,13 +16,14 @@ import Register from '../pages/auth/Register'
 
 import MisPedidos from '../pages/cliente/MisPedidos'
 
-import AsesorDashboard    from '../pages/asesor/AsesorDashboard'
+import AsesorDashboard     from '../pages/asesor/AsesorDashboard'
 import AsesorDetallePedido from '../pages/asesor/AsesorDetallePedido'
 
 import AdminDashboard  from '../pages/admin/AdminDashboard'
 import AdminProductos  from '../pages/admin/AdminProductos'
 import AdminPedidos    from '../pages/admin/AdminPedidos'
 import AdminClientes   from '../pages/admin/AdminClientes'
+import AdminAsesores   from '../pages/admin/AdminAsesores'
 import AdminDescuentos from '../pages/admin/AdminDescuentos'
 
 import Acceso403 from '../pages/Acceso403'
@@ -60,20 +62,23 @@ export default function AppRouter() {
           <Route path="/mis-pedidos"         element={<PrivateRoute roles={['CLIENTE']}><MisPedidos /></PrivateRoute>} />
         </Route>
 
-        {/* Auth sin layout público */}
+        {/* Auth sin layout */}
         <Route path="/login"    element={<GuestRoute><Login /></GuestRoute>} />
         <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} />
 
         {/* Asesor */}
-        <Route path="/asesor"             element={<PrivateRoute roles={['ASESOR_VENTAS']}><AsesorDashboard /></PrivateRoute>} />
-        <Route path="/asesor/pedido/:id"  element={<PrivateRoute roles={['ASESOR_VENTAS']}><AsesorDetallePedido /></PrivateRoute>} />
+        <Route path="/asesor"            element={<PrivateRoute roles={['ASESOR_VENTAS']}><AsesorDashboard /></PrivateRoute>} />
+        <Route path="/asesor/pedido/:id" element={<PrivateRoute roles={['ASESOR_VENTAS']}><AsesorDetallePedido /></PrivateRoute>} />
 
-        {/* Admin */}
-        <Route path="/admin"              element={<PrivateRoute roles={['ADMINISTRADOR']}><AdminDashboard /></PrivateRoute>} />
-        <Route path="/admin/productos"    element={<PrivateRoute roles={['ADMINISTRADOR']}><AdminProductos /></PrivateRoute>} />
-        <Route path="/admin/pedidos"      element={<PrivateRoute roles={['ADMINISTRADOR']}><AdminPedidos /></PrivateRoute>} />
-        <Route path="/admin/clientes"     element={<PrivateRoute roles={['ADMINISTRADOR']}><AdminClientes /></PrivateRoute>} />
-        <Route path="/admin/descuentos"   element={<PrivateRoute roles={['ADMINISTRADOR']}><AdminDescuentos /></PrivateRoute>} />
+        {/* Admin — rutas anidadas dentro de AdminLayout */}
+        <Route element={<PrivateRoute roles={['ADMINISTRADOR']}><AdminLayout /></PrivateRoute>}>
+          <Route path="/admin"             element={<AdminDashboard />} />
+          <Route path="/admin/productos"   element={<AdminProductos />} />
+          <Route path="/admin/pedidos"     element={<AdminPedidos />} />
+          <Route path="/admin/clientes"    element={<AdminClientes />} />
+          <Route path="/admin/asesores"    element={<AdminAsesores />} />
+          <Route path="/admin/descuentos"  element={<AdminDescuentos />} />
+        </Route>
 
         <Route path="/403" element={<Acceso403 />} />
         <Route path="*"    element={<Navigate to="/" replace />} />
